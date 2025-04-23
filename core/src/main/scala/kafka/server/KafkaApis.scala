@@ -2863,6 +2863,9 @@ class KafkaApis(val requestChannel: RequestChannel,
   }
 
   def handleShareGroupHeartbeat(request: RequestChannel.Request): CompletableFuture[Unit] = {
+
+    info("chirag, inside handleShareGroupHeartbeat")
+
     val shareGroupHeartbeatRequest = request.body[ShareGroupHeartbeatRequest]
 
     if (!isShareGroupProtocolEnabled) {
@@ -2886,7 +2889,7 @@ class KafkaApis(val requestChannel: RequestChannel,
           return CompletableFuture.completedFuture[Unit](())
         }
       }
-
+      info("chirag, sending request to groupCoordinator")
       groupCoordinator.shareGroupHeartbeat(
         request.context,
         shareGroupHeartbeatRequest.data

@@ -2755,6 +2755,8 @@ public class GroupMetadataManager {
             createIfNotExists
         );
 
+        log.info("chirag, member: " + member);
+
         // 1. Create or update the member. If the member is new or has changed, a ShareGroupMemberMetadataValue
         // record is written to the __consumer_offsets partition to persist the change. If the subscriptions have
         // changed, the subscription metadata is updated and persisted by writing a ShareGroupPartitionMetadataValue
@@ -2767,12 +2769,16 @@ public class GroupMetadataManager {
             .setClientHost(clientHost)
             .build();
 
+        log.info("chirag, updatedMember: " + updatedMember);
+
         boolean bumpGroupEpoch = hasMemberSubscriptionChanged(
             groupId,
             member,
             updatedMember,
             records
         ) || initializedAssignmentPending(group);
+
+        log.info("chirag, bumpGroupEpoch: " + bumpGroupEpoch);
 
         int groupEpoch = group.groupEpoch();
         Map<String, TopicMetadata> subscriptionMetadata = group.subscriptionMetadata();
@@ -2834,6 +2840,8 @@ public class GroupMetadataManager {
             targetAssignmentEpoch = group.assignmentEpoch();
             targetAssignment = group.targetAssignment(updatedMember.memberId());
         }
+
+        log.info("chirag, targetAssignment: " + targetAssignment);
 
         // 3. Reconcile the member's assignment with the target assignment if the member is not
         // fully reconciled yet.
@@ -4920,6 +4928,7 @@ public class GroupMetadataManager {
         AuthorizableRequestContext context,
         ShareGroupHeartbeatRequestData request
     ) throws ApiException {
+        log.info("chirag, inside shareGroupHeartbeat GroupMetadataManager");
         throwIfShareGroupHeartbeatRequestIsInvalid(request);
 
         if (request.memberEpoch() == ShareGroupHeartbeatRequest.LEAVE_GROUP_MEMBER_EPOCH) {

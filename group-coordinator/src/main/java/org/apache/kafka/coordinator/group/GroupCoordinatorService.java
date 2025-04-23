@@ -439,6 +439,7 @@ public class GroupCoordinatorService implements GroupCoordinator {
         AuthorizableRequestContext context,
         ShareGroupHeartbeatRequestData request
     ) {
+        log.info("chirag, inside shareGroupHeartbeat GCS");
         if (!isActive.get()) {
             return CompletableFuture.completedFuture(new ShareGroupHeartbeatResponseData()
                 .setErrorCode(Errors.COORDINATOR_NOT_AVAILABLE.code())
